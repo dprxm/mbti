@@ -1,367 +1,62 @@
-<!DOCTYPE html>
-<html lang="ko">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>🐱 학교생활 MBTI 테스트</title>
-
-<style>
-*{
-margin:0;
-padding:0;
-box-sizing:border-box;
-font-family:"Pretendard",sans-serif;
-}
-
-body{
-background:linear-gradient(#ffe6f2,#ffd6ec,#fff4f8);
-min-height:100vh;
-display:flex;
-justify-content:center;
-align-items:center;
-overflow:hidden;
-}
-
-.cat{
-position:fixed;
-font-size:40px;
-animation:float 5s infinite ease-in-out;
-opacity:.5;
-}
-
-.cat:nth-child(1){left:5%;top:10%;}
-.cat:nth-child(2){right:8%;top:15%;animation-delay:1s;}
-.cat:nth-child(3){left:15%;bottom:8%;animation-delay:2s;}
-.cat:nth-child(4){right:15%;bottom:10%;animation-delay:3s;}
-
-@keyframes float{
-0%,100%{transform:translateY(0);}
-50%{transform:translateY(-15px);}
-}
-
-.container{
-width:90%;
-max-width:650px;
-background:white;
-padding:30px;
-border-radius:25px;
-box-shadow:0 10px 25px rgba(0,0,0,.12);
-text-align:center;
-position:relative;
-z-index:10;
-}
-
-h1{
-color:#ff5f9e;
-margin-bottom:20px;
-}
-
-button{
-padding:14px 28px;
-border:none;
-background:#ff8dc3;
-color:white;
-border-radius:30px;
-font-size:17px;
-cursor:pointer;
-transition:.3s;
-margin-top:20px;
-}
-
-button:hover{
-background:#ff69b4;
-transform:scale(1.05);
-}
-
-.question{
-font-size:22px;
-margin-bottom:25px;
-font-weight:bold;
-color:#444;
-}
-
-.answer{
-display:block;
-width:100%;
-margin:12px 0;
-padding:16px;
-border-radius:18px;
-border:2px solid #ffd1e6;
-background:#fff6fa;
-cursor:pointer;
-transition:.3s;
-font-size:16px;
-}
-
-.answer:hover{
-background:#ffd8eb;
-}
-
-.progress{
-width:100%;
-height:12px;
-background:#eee;
-border-radius:20px;
-margin-bottom:20px;
-overflow:hidden;
-}
-
-.bar{
-height:100%;
-width:0%;
-background:#ff7eb7;
-transition:.4s;
-}
-
-.result{
-font-size:20px;
-line-height:1.7;
-display:none;
-}
-
-.mbti{
-font-size:48px;
-color:#ff5d9d;
-margin:15px 0;
-font-weight:bold;
-}
-
-.catResult{
-font-size:70px;
-}
-
-small{
-display:block;
-margin-top:15px;
-color:#888;
-}
-
-</style>
-</head>
-
-<body>
-
-<div class="cat">🐱</div>
-<div class="cat">😺</div>
-<div class="cat">🐈</div>
-<div class="cat">🐾</div>
-
-<div class="container">
-
-<div id="start">
-
-<h1>🐱 학교생활 MBTI 테스트 🐱</h1>
-
-<p>
-학교생활 속 선택으로 알아보는<br><br>
-🌸 나의 MBTI 🌸
-</p>
-
-<button onclick="startTest()">시작하기</button>
-
-</div>
-
-<div id="quiz" style="display:none;">
-
-<div class="progress">
-<div class="bar" id="bar"></div>
-</div>
-
-<div class="question" id="question"></div>
-
-<div id="answers"></div>
-
-</div>
-
-<div class="result" id="result">
-
-<div class="catResult" id="catEmoji"></div>
-
-<div class="mbti" id="mbti"></div>
-
-<p id="desc"></p>
-
-<button onclick="location.reload()">다시하기</button>
-
-</div>
-
-</div>
-
-<script>
-
-const questions=[
-
+const questions = [
 {
-q:"새 학기 첫날!",
-a:"먼저 친구에게 말 건다",
-b:"조용히 기다린다",
+q:"시험이 끝난 날! 가장 먼저 하는 일은?",
+a:"친구들과 사진 찍고 놀러 간다 📸",
+b:"집에 가서 푹 쉰다 🛌",
 type:"EI"
 },
-
 {
-q:"조별과제에서 나는?",
-a:"발표를 맡는다",
-b:"자료조사를 맡는다",
-type:"EI"
-},
-
-{
-q:"시험공부는?",
-a:"계획을 세워서 한다",
-b:"그날 느낌대로 한다",
-type:"JP"
-},
-
-{
-q:"급식시간!",
-a:"늘 먹던 메뉴",
-b:"새로운 메뉴 도전",
-type:"SN"
-},
-
-{
-q:"친구가 고민을 말하면?",
-a:"해결방법을 알려준다",
-b:"먼저 공감해준다",
+q:"조별과제에서 의견이 갈린다면?",
+a:"모두가 만족하는 방법을 찾는다",
+b:"가장 효율적인 방법을 선택한다",
 type:"TF"
 },
-
 {
-q:"쉬는시간에는?",
-a:"친구들과 논다",
-b:"혼자 쉬는 게 좋다",
-type:"EI"
+q:"학교 축제 부스를 맡게 되었다.",
+a:"새롭고 특별한 아이디어를 낸다",
+b:"작년 잘된 방식을 참고한다",
+type:"SN"
 },
-
 {
-q:"숙제는?",
-a:"미리 끝낸다",
-b:"마감 직전에 한다",
+q:"수행평가가 2주 남았다.",
+a:"오늘부터 조금씩 준비한다",
+b:"마감 직전에 집중해서 끝낸다",
 type:"JP"
 },
-
 {
-q:"학교 축제!",
-a:"무대에 서고 싶다",
-b:"구경하는 게 좋다",
+q:"친구가 갑자기 점심 메뉴를 바꾸자고 한다.",
+a:"좋아! 새로운 것도 재밌지!",
+b:"원래 먹으려던 걸 먹는 게 좋다.",
+type:"SN"
+},
+{
+q:"체육대회 계주 선수를 뽑는다.",
+a:"일단 도전해본다.",
+b:"잘하는 친구에게 맡긴다.",
 type:"EI"
+},
+{
+q:"친구가 시험을 망쳐 울고 있다.",
+a:"먼저 위로해 준다.",
+b:"다음 시험 계획을 같이 세운다.",
+type:"TF"
+},
+{
+q:"학교에서 갑자기 일정이 변경됐다.",
+a:"즉흥적으로 적응한다.",
+b:"계획이 바뀌어서 조금 당황한다.",
+type:"JP"
+},
+{
+q:"쉬는 시간 10분이 생겼다.",
+a:"친구들과 수다 떨러 간다.",
+b:"자리에서 쉬거나 음악을 듣는다.",
+type:"EI"
+},
+{
+q:"새로운 동아리를 고른다면?",
+a:"한 번도 안 해본 활동",
+b:"익숙하고 잘하는 활동",
+type:"SN"
 }
-
 ];
-
-let current=0;
-
-let score={
-E:0,
-I:0,
-S:0,
-N:0,
-T:0,
-F:0,
-J:0,
-P:0
-};
-
-function startTest(){
-document.getElementById("start").style.display="none";
-document.getElementById("quiz").style.display="block";
-showQuestion();
-}
-
-function showQuestion(){
-
-let q=questions[current];
-
-document.getElementById("question").innerHTML="🐾 "+q.q;
-
-document.getElementById("bar").style.width=((current)/questions.length*100)+"%";
-
-document.getElementById("answers").innerHTML=`
-
-<div class="answer" onclick="answer(0)">
-😺 ${q.a}
-</div>
-
-<div class="answer" onclick="answer(1)">
-🐱 ${q.b}
-</div>
-
-`;
-
-}
-
-function answer(num){
-
-let type=questions[current].type;
-
-if(num==0){
-score[type[0]]++;
-}else{
-score[type[1]]++;
-}
-
-current++;
-
-if(current<questions.length){
-showQuestion();
-}else{
-showResult();
-}
-
-}
-
-function showResult(){
-
-document.getElementById("quiz").style.display="none";
-document.getElementById("result").style.display="block";
-
-let mbti="";
-
-mbti+=score.E>=score.I?"E":"I";
-mbti+=score.S>=score.N?"S":"N";
-mbti+=score.T>=score.F?"T":"F";
-mbti+=score.J>=score.P?"J":"P";
-
-document.getElementById("mbti").innerHTML=mbti;
-
-let desc="";
-let cat="🐱";
-
-switch(mbti){
-
-case "ENFP":
-cat="😸";
-desc="활발한 인기쟁이 고양이! 친구들과 노는 걸 좋아해요.";
-break;
-
-case "INTJ":
-cat="🐈";
-desc="계획적인 천재 고양이! 공부와 전략에 강해요.";
-break;
-
-case "ISFP":
-cat="😺";
-desc="온순하고 다정한 고양이! 친구를 잘 챙겨줘요.";
-break;
-
-case "ESTP":
-cat="😼";
-desc="모험을 좋아하는 장난꾸러기 고양이!";
-break;
-
-default:
-cat="🐱";
-desc="귀엽고 매력적인 학교 고양이! 어떤 환경에서도 잘 적응하는 타입이에요.";
-}
-
-document.getElementById("catEmoji").innerHTML=cat;
-document.getElementById("desc").innerHTML=desc;
-
-document.getElementById("bar").style.width="100%";
-
-}
-
-</script>
-
-</body>
-</html>
