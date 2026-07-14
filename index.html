@@ -1,62 +1,925 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>🐱 학교생활 MBTI 고양이 테스트</title>
+
+<style>
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:"Pretendard","Arial",sans-serif;
+}
+
+body{
+    min-height:100vh;
+    background:
+    linear-gradient(
+        135deg,
+        #ffe5f1,
+        #ffd6e8,
+        #fff2f8
+    );
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    overflow:hidden;
+}
+
+
+/* 배경 고양이 */
+
+.floating-cat{
+    position:fixed;
+    font-size:45px;
+    opacity:.55;
+    animation:float 4s infinite ease-in-out;
+}
+
+.cat1{
+    top:8%;
+    left:8%;
+}
+
+.cat2{
+    top:15%;
+    right:10%;
+    animation-delay:1s;
+}
+
+.cat3{
+    bottom:10%;
+    left:12%;
+    animation-delay:2s;
+}
+
+.cat4{
+    bottom:15%;
+    right:8%;
+    animation-delay:3s;
+}
+
+
+@keyframes float{
+
+0%,100%{
+    transform:translateY(0);
+}
+
+50%{
+    transform:translateY(-20px);
+}
+
+}
+
+
+
+/* 메인 카드 */
+
+.container{
+
+width:90%;
+max-width:650px;
+
+background:white;
+
+border-radius:30px;
+
+padding:35px 30px;
+
+box-shadow:
+0 15px 40px rgba(255,120,170,.25);
+
+text-align:center;
+
+position:relative;
+
+z-index:5;
+
+}
+
+
+
+h1{
+
+color:#ff6fae;
+
+font-size:30px;
+
+margin-bottom:20px;
+
+}
+
+
+.subtitle{
+
+color:#777;
+
+line-height:1.8;
+
+font-size:16px;
+
+}
+
+
+
+.main-cat{
+
+font-size:80px;
+
+margin:20px;
+
+animation:bounce 2s infinite;
+
+}
+
+
+
+@keyframes bounce{
+
+50%{
+transform:translateY(-10px);
+}
+
+}
+
+
+
+button{
+
+border:none;
+
+background:#ff8fc4;
+
+color:white;
+
+padding:15px 35px;
+
+border-radius:40px;
+
+font-size:18px;
+
+cursor:pointer;
+
+margin-top:25px;
+
+transition:.3s;
+
+}
+
+
+
+button:hover{
+
+background:#ff5fa8;
+
+transform:scale(1.05);
+
+}
+
+
+
+
+/* 테스트 화면 */
+
+#quiz{
+
+display:none;
+
+}
+
+
+
+.progress-box{
+
+width:100%;
+
+height:14px;
+
+background:#eee;
+
+border-radius:20px;
+
+overflow:hidden;
+
+margin-bottom:25px;
+
+}
+
+
+
+.progress{
+
+height:100%;
+
+width:0%;
+
+background:
+linear-gradient(
+90deg,
+#ff9dcc,
+#ff6fae
+);
+
+transition:.4s;
+
+}
+
+
+
+.question{
+
+font-size:22px;
+
+font-weight:bold;
+
+color:#444;
+
+margin-bottom:25px;
+
+line-height:1.5;
+
+}
+
+
+
+.answer{
+
+background:#fff5fa;
+
+border:2px solid #ffd0e4;
+
+border-radius:20px;
+
+padding:18px;
+
+margin:15px 0;
+
+cursor:pointer;
+
+transition:.3s;
+
+font-size:16px;
+
+}
+
+
+
+.answer:hover{
+
+background:#ffddec;
+
+transform:translateY(-3px);
+
+}
+
+
+
+/* 결과 */
+
+#result{
+
+display:none;
+
+}
+
+
+
+.result-cat{
+
+font-size:90px;
+
+}
+
+
+
+.result-mbti{
+
+font-size:45px;
+
+font-weight:bold;
+
+color:#ff5fa8;
+
+margin:10px;
+
+}
+
+
+
+.result-title{
+
+font-size:25px;
+
+color:#ff7db7;
+
+margin-bottom:15px;
+
+}
+
+
+
+.result-text{
+
+color:#555;
+
+line-height:1.8;
+
+font-size:17px;
+
+}
+
+
+
+</style>
+
+</head>
+
+
+<body>
+
+
+<div class="floating-cat cat1">🐱</div>
+<div class="floating-cat cat2">😺</div>
+<div class="floating-cat cat3">🐾</div>
+<div class="floating-cat cat4">🐈</div>
+
+
+
+<div class="container">
+
+
+<!-- 시작 화면 -->
+
+<div id="start">
+
+
+<div class="main-cat">
+😻
+</div>
+
+
+<h1>
+학교생활 MBTI 고양이 테스트
+</h1>
+
+
+<p class="subtitle">
+
+나의 학교생활 스타일은 어떤 고양이일까? 🐾<br>
+
+친구 관계, 공부 습관, 학교생활 속 선택으로<br>
+
+나만의 고양이 MBTI를 찾아보세요!
+
+</p>
+
+
+<button onclick="startTest()">
+테스트 시작하기 💗
+</button>
+
+
+</div>
+
+
+
+
+
+<!-- 문제 화면 -->
+
+
+<div id="quiz">
+
+
+<div class="progress-box">
+
+<div class="progress" id="progress"></div>
+
+</div>
+
+
+<div class="question" id="question">
+
+</div>
+
+
+<div id="answers">
+
+</div>
+
+
+</div>
+
+
+
+
+
+<!-- 결과 화면 -->
+
+
+<div id="result">
+
+
+<div class="result-cat" id="resultCat">
+
+</div>
+
+
+<div class="result-mbti" id="resultMbti">
+
+</div>
+
+
+<div class="result-title" id="resultTitle">
+
+</div>
+
+
+<div class="result-text" id="resultText">
+
+</div>
+
+
+<button onclick="location.reload()">
+
+다시 테스트하기 🐾
+
+</button>
+
+
+</div>
+
+
+
+</div>
+
+
+<script>
+
+
+let current = 0;
+
+
+let score = {
+
+E:0,
+I:0,
+
+S:0,
+N:0,
+
+T:0,
+F:0,
+
+J:0,
+P:0
+
+};
+// =============================
+// 학교생활 MBTI 질문 데이터
+// =============================
+
 const questions = [
+
 {
-q:"시험이 끝난 날! 가장 먼저 하는 일은?",
-a:"친구들과 사진 찍고 놀러 간다 📸",
-b:"집에 가서 푹 쉰다 🛌",
+q:"새 학기 첫날, 옆자리에 새로운 친구가 앉았다!",
+a:"먼저 웃으며 말을 건다 😸",
+b:"친구가 먼저 다가오길 기다린다 🐱",
 type:"EI"
 },
+
 {
-q:"조별과제에서 의견이 갈린다면?",
-a:"모두가 만족하는 방법을 찾는다",
+q:"시험이 끝난 날 가장 하고 싶은 것은?",
+a:"친구들과 놀러 가거나 이야기한다 🎉",
+b:"집에서 혼자 편하게 쉰다 🛌",
+type:"EI"
+},
+
+{
+q:"학교 축제 준비를 맡았다!",
+a:"새롭고 특별한 아이디어를 낸다 ✨",
+b:"검증된 방법을 참고해서 준비한다 📚",
+type:"SN"
+},
+
+{
+q:"수행평가 발표 전날!",
+a:"친구들과 연습하며 준비한다 🎤",
+b:"혼자 조용히 연습한다 📖",
+type:"EI"
+},
+
+{
+q:"친구가 고민을 털어놓았다.",
+a:"먼저 공감하고 위로해준다 💗",
+b:"해결 방법을 같이 찾아본다 🔍",
+type:"TF"
+},
+
+{
+q:"조별과제에서 의견 충돌이 생겼다.",
+a:"모두 기분 좋게 끝내는 방법을 찾는다",
 b:"가장 효율적인 방법을 선택한다",
 type:"TF"
 },
+
 {
-q:"학교 축제 부스를 맡게 되었다.",
-a:"새롭고 특별한 아이디어를 낸다",
-b:"작년 잘된 방식을 참고한다",
+q:"체육 시간에 새로운 운동을 배운다.",
+a:"일단 해보면서 익힌다 🏃",
+b:"방법을 먼저 이해하고 시작한다 📖",
 type:"SN"
 },
+
 {
-q:"수행평가가 2주 남았다.",
-a:"오늘부터 조금씩 준비한다",
-b:"마감 직전에 집중해서 끝낸다",
+q:"학교 알림장이 나왔다.",
+a:"미리 확인하고 계획을 세운다",
+b:"필요할 때 확인한다",
 type:"JP"
 },
+
 {
-q:"친구가 갑자기 점심 메뉴를 바꾸자고 한다.",
-a:"좋아! 새로운 것도 재밌지!",
-b:"원래 먹으려던 걸 먹는 게 좋다.",
-type:"SN"
+q:"시험 공부 스타일은?",
+a:"계획표를 만들어 조금씩 한다 📝",
+b:"마지막 집중력이 최고다 🔥",
+type:"JP"
 },
+
 {
-q:"체육대회 계주 선수를 뽑는다.",
-a:"일단 도전해본다.",
-b:"잘하는 친구에게 맡긴다.",
+q:"쉬는 시간 10분!",
+a:"친구들과 수다 타임 💬",
+b:"조용히 충전하는 시간 🌙",
 type:"EI"
 },
+
 {
-q:"친구가 시험을 망쳐 울고 있다.",
-a:"먼저 위로해 준다.",
-b:"다음 시험 계획을 같이 세운다.",
+q:"급식 메뉴가 처음 보는 음식이다.",
+a:"궁금하니까 먹어본다 🍜",
+b:"익숙한 메뉴가 좋다 🍚",
+type:"SN"
+},
+
+{
+q:"친구가 약속 시간에 늦었다.",
+a:"괜찮다고 하고 기다린다 😊",
+b:"왜 늦었는지 이유를 생각한다",
 type:"TF"
 },
+
 {
-q:"학교에서 갑자기 일정이 변경됐다.",
-a:"즉흥적으로 적응한다.",
-b:"계획이 바뀌어서 조금 당황한다.",
+q:"학교에서 갑자기 일정이 바뀌었다.",
+a:"그때그때 맞춰간다",
+b:"계획이 바뀌면 다시 정리한다",
 type:"JP"
 },
+
 {
-q:"쉬는 시간 10분이 생겼다.",
-a:"친구들과 수다 떨러 간다.",
-b:"자리에서 쉬거나 음악을 듣는다.",
+q:"동아리를 고른다면?",
+a:"새롭고 신기한 활동",
+b:"내가 잘할 수 있는 활동",
+type:"SN"
+},
+
+{
+q:"반 친구들이 장기자랑을 준비한다.",
+a:"같이 참여하고 싶다 🎵",
+b:"응원하는 역할이 좋다",
 type:"EI"
 },
+
 {
-q:"새로운 동아리를 고른다면?",
-a:"한 번도 안 해본 활동",
-b:"익숙하고 잘하는 활동",
+q:"선생님이 새로운 프로젝트를 제안했다.",
+a:"재미있겠다! 일단 도전!",
+b:"어떤 결과가 나올지 생각한다",
 type:"SN"
+},
+
+{
+q:"친구가 시험 점수가 떨어져 속상해한다.",
+a:"많이 힘들었겠다며 위로한다",
+b:"다음 시험 공부법을 알려준다",
+type:"TF"
+},
+
+{
+q:"방학 계획을 세운다면?",
+a:"날짜별 계획표를 만든다",
+b:"하고 싶은 일을 그때 정한다",
+type:"JP"
+},
+
+{
+q:"학교 행사에서 맡고 싶은 역할은?",
+a:"앞에서 진행하는 역할",
+b:"뒤에서 준비하는 역할",
+type:"EI"
+},
+
+{
+q:"새로운 친구를 사귈 때 나는?",
+a:"먼저 친해지려고 노력한다",
+b:"천천히 가까워지는 편이다",
+type:"EI"
 }
+
 ];
+
+
+
+// =============================
+// 테스트 시작
+// =============================
+
+function startTest(){
+
+document.getElementById("start").style.display="none";
+
+document.getElementById("quiz").style.display="block";
+
+showQuestion();
+
+}
+
+
+
+
+// =============================
+// 문제 표시
+// =============================
+
+function showQuestion(){
+
+let q = questions[current];
+
+
+document.getElementById("question").innerHTML =
+"🐾 " + q.q;
+
+
+
+document.getElementById("progress").style.width =
+((current / questions.length) * 100) + "%";
+
+
+
+document.getElementById("answers").innerHTML = `
+
+
+<div class="answer" onclick="selectAnswer(0)">
+
+😺 ${q.a}
+
+</div>
+
+
+<div class="answer" onclick="selectAnswer(1)">
+
+🐱 ${q.b}
+
+</div>
+
+
+`;
+
+}
+
+
+
+// =============================
+// 답 선택
+// =============================
+
+function selectAnswer(answer){
+
+
+let type = questions[current].type;
+
+
+if(answer === 0){
+
+score[type[0]]++;
+
+}
+
+else{
+
+score[type[1]]++;
+
+}
+
+
+
+current++;
+
+
+
+if(current < questions.length){
+
+showQuestion();
+
+}
+
+else{
+
+showResult();
+
+}
+
+
+}
+
+// =============================
+// MBTI 결과 데이터
+// =============================
+
+const resultData = {
+
+
+INTJ:{
+cat:"🐈‍⬛",
+title:"전략가 고양이",
+text:"계획을 세우고 목표를 향해 나아가는 똑똑한 고양이! 시험 준비도 미리미리 하는 스타일이에요."
+},
+
+
+INTP:{
+cat:"🧐🐱",
+title:"탐구왕 고양이",
+text:"궁금한 것이 생기면 끝까지 파고드는 생각 많은 고양이! 새로운 지식을 발견하는 걸 좋아해요."
+},
+
+
+ENTJ:{
+cat:"👑🐱",
+title:"리더 고양이",
+text:"친구들을 이끄는 카리스마 고양이! 조별과제에서 자연스럽게 리더가 되는 타입이에요."
+},
+
+
+ENTP:{
+cat:"😹",
+title:"아이디어 고양이",
+text:"재미있는 생각이 넘치는 창의적인 고양이! 새로운 시도를 좋아하는 발명가 스타일이에요."
+},
+
+
+INFJ:{
+cat:"🌙🐱",
+title:"상담사 고양이",
+text:"친구들의 마음을 잘 알아주는 따뜻한 고양이! 조용하지만 깊은 생각을 가진 타입이에요."
+},
+
+
+INFP:{
+cat:"🌸😺",
+title:"감성 고양이",
+text:"상상력이 풍부하고 마음이 예쁜 고양이! 자신만의 특별한 세계가 있어요."
+},
+
+
+ENFJ:{
+cat:"💗🐱",
+title:"응원단장 고양이",
+text:"친구들을 챙기고 분위기를 밝게 만드는 고양이! 모두에게 사랑받는 스타일이에요."
+},
+
+
+ENFP:{
+cat:"🎉😸",
+title:"모험 고양이",
+text:"재미있는 일을 찾아다니는 에너지 넘치는 고양이! 학교생활의 활력소예요."
+},
+
+
+ISTJ:{
+cat:"📚🐱",
+title:"모범생 고양이",
+text:"책임감이 강하고 약속을 잘 지키는 고양이! 선생님이 믿는 스타일이에요."
+},
+
+
+ISFJ:{
+cat:"🧸😺",
+title:"배려 고양이",
+text:"친구들을 조용히 도와주는 다정한 고양이! 따뜻한 마음을 가진 타입이에요."
+},
+
+
+ESTJ:{
+cat:"📢🐱",
+title:"반장 고양이",
+text:"규칙과 계획을 중요하게 생각하는 든든한 고양이! 맡은 일은 끝까지 해내요."
+},
+
+
+ESFJ:{
+cat:"💕😽",
+title:"인기쟁이 고양이",
+text:"친구들과 함께할 때 가장 행복한 고양이! 학교생활 적응력이 최고예요."
+},
+
+
+ISTP:{
+cat:"🔧🐈",
+title:"해결사 고양이",
+text:"문제가 생기면 침착하게 해결하는 능력자 고양이! 실전에서 강한 타입이에요."
+},
+
+
+ISFP:{
+cat:"🍀🐱",
+title:"힐링 고양이",
+text:"편안한 분위기를 만드는 평화로운 고양이! 조용하지만 매력이 넘쳐요."
+},
+
+
+ESTP:{
+cat:"⚡😼",
+title:"액션 고양이",
+text:"도전을 좋아하는 활동적인 고양이! 체육대회에서 빛나는 스타일이에요."
+},
+
+
+ESFP:{
+cat:"🎈😸",
+title:"축제 고양이",
+text:"재미와 즐거움을 만드는 분위기 메이커 고양이! 친구들과 추억 만드는 걸 좋아해요."
+}
+
+
+};
+
+
+
+
+// =============================
+// 결과 보여주기
+// =============================
+
+
+function showResult(){
+
+
+document.getElementById("quiz").style.display="none";
+
+
+document.getElementById("result").style.display="block";
+
+
+
+// MBTI 계산
+
+let mbti="";
+
+
+mbti += score.E >= score.I ? "E":"I";
+
+mbti += score.S >= score.N ? "S":"N";
+
+mbti += score.T >= score.F ? "T":"F";
+
+mbti += score.J >= score.P ? "J":"P";
+
+
+
+let result = resultData[mbti];
+
+
+
+document.getElementById("resultCat").innerHTML =
+result.cat;
+
+
+
+document.getElementById("resultMbti").innerHTML =
+mbti;
+
+
+
+document.getElementById("resultTitle").innerHTML =
+result.title;
+
+
+
+document.getElementById("resultText").innerHTML =
+result.text;
+
+
+
+document.getElementById("progress").style.width =
+"100%";
+
+
+}
+
+
+</script>
+
+
+</body>
+
+</html>
